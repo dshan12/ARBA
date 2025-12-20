@@ -1,0 +1,14 @@
+{
+  "lambda_base": 6.0138,
+  "amplitude": -0.3394,
+  "phase": 0.2419,
+  "peak_hour": 23.08,
+  "acuity_composition": {
+    "critical": 0.13,
+    "urgent": 0.37,
+    "routine": 0.5
+  },
+  "source": "NHAMCS 2020-2023 published rates (synthetic calibration)",
+  "n_days": 365,
+  "mean_daily_arrivals": 144.33
+}
