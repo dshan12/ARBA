@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering
+\caption{Multi-replication results across scenarios.}
+\label{tab:multi_rep}
+\begin{tabular}{lcccr}
+\toprule
+Scenario & Policy & Total Cost & Regret & Detect Delay (h) \\
+\midrule
+  baseline & robust & $123117.4 \pm 28490.3$ & $31012.9 \pm 19450.2$ & nan \\
+  baseline & adaptive & $114007.5 \pm 26210.2$ & $21903.1 \pm 17045.7$ & nan \\
+  flash_flood & robust & $275960.7 \pm 29234.0$ & $53606.7 \pm 10848.9$ & nan \\
+  flash_flood & adaptive & $266559.2 \pm 28814.8$ & $44205.2 \pm 10200.2$ & 1.1 \\
+  creeping_crisis & robust & $464966.1 \pm 38197.2$ & $46978.3 \pm 12523.7$ & nan \\
+  creeping_crisis & adaptive & $455725.5 \pm 37862.2$ & $37737.6 \pm 12135.3$ & 4.8 \\
+  acuity_flip & robust & $850998.4 \pm 57317.9$ & $42612.7 \pm 12494.9$ & nan \\
+  acuity_flip & adaptive & $839079.9 \pm 58165.8$ & $30694.1 \pm 11383.8$ & 2.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
