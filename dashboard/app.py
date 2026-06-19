@@ -189,10 +189,10 @@ with tab2:
     col_a, col_b = st.columns(2)
     with col_a:
         metric_choice = st.selectbox(
-            "Metric", ["avg_wait", "p95_wait", "total_cost"],
-            format_func=lambda x: {"avg_wait": "Avg Wait Time",
-                                    "p95_wait": "P95 Wait Time",
-                                    "total_cost": "Total Cost"}[x],
+            "Metric", ["total_cost", "regret", "n_patients"],
+            format_func=lambda x: {"total_cost": "Total Cost",
+                                    "regret": "Regret",
+                                    "n_patients": "Patients Seen"}[x],
         )
     with col_b:
         scenario_filter = st.multiselect(
@@ -203,51 +203,36 @@ with tab2:
 
     df = load_results_csv("multi_rep_summary.csv")
     if df is not None:
-        df_filt = df[df["scenario"].isin(scenario_filter)] if scenario_filter else df
+        valid_cols = {"scenario", "policy", "total_cost", "V_star", "regret", "n_patients"}
+        missing = valid_cols - set(df.columns)
+        if missing:
+            st.warning(f"CSV missing columns: {', '.join(missing)}. Run stress tests first.")
+        elif metric_choice not in df.columns:
+            st.warning(f"Column '{metric_choice}' not found in CSV.")
+        else:
+            df_filt = df[df["scenario"].isin(scenario_filter)] if scenario_filter else df
 
-        st.subheader(f"{metric_choice.replace('_', ' ').title()} by Policy")
-        plot_df = df_filt.groupby(["scenario", "policy"]).agg(
-            mean=(metric_choice, "mean"),
-            std=(metric_choice, "std"),
-        ).reset_index()
+            st.subheader(f"{metric_choice.replace('_', ' ').title()} by Policy")
+            plot_df = df_filt.groupby(["scenario", "policy"]).agg(
+                mean=(metric_choice, "mean"),
+                std=(metric_choice, "std"),
+            ).reset_index()
 
-        fig_bar = go.Figure()
-        for policy in ["robust", "adaptive"]:
-            sub = plot_df[plot_df["policy"] == policy]
-            fig_bar.add_trace(go.Bar(
-                name=policy.title(),
-                x=sub["scenario"],
-                y=sub["mean"],
-                error_y=dict(type="data", array=sub["std"], visible=True),
-            ))
-        fig_bar.update_layout(
-            barmode="group", xaxis_title="Scenario",
-            yaxis_title=metric_choice.replace("_", " ").title(),
-            height=400,
-        )
-        st.plotly_chart(fig_bar, use_container_width=True)
-
-        st.subheader("Sensitivity Heatmap")
-        heat_df = df_filt.groupby(["lambda_base", "surge_mult"]).agg(
-            avg_wait=("V_star", "mean")
-        ).reset_index()
-        heat_pivot = heat_df.pivot(
-            index="lambda_base", columns="surge_mult", values="avg_wait"
-        )
-        fig_heat = px.imshow(
-            heat_pivot.values,
-            x=heat_pivot.columns.astype(str),
-            y=heat_pivot.index.astype(str),
-            labels=dict(x="Surge Mult", y="Lambda Base", color="Avg Cost"),
-            aspect="auto", color_continuous_scale="Viridis",
-        )
-        fig_heat.update_layout(
-            title="Sensitivity of Average Cost to Arrival Rate and Surge Magnitude",
-            xaxis_title="Surge Magnitude",
-            yaxis_title="Base Arrival Rate (λ₀)",
-            height=400,
-        )
-        st.plotly_chart(fig_heat, use_container_width=True)
+            fig_bar = go.Figure()
+            for policy in ["robust", "adaptive"]:
+                sub = plot_df[plot_df["policy"] == policy]
+                fig_bar.add_trace(go.Bar(
+                    name=policy.title(),
+                    x=sub["scenario"],
+                    y=sub["mean"],
+                    error_y=dict(type="data", array=sub["std"], visible=True),
+                ))
+            fig_bar.update_layout(
+                barmode="group", xaxis_title="Scenario",
+                yaxis_title=metric_choice.replace("_", " ").title(),
+                height=400,
+            )
+            st.plotly_chart(fig_bar, use_container_width=True)
 
         st.subheader("Calibrated Parameters")
         cal_df = load_results_csv("calibration_frontier.csv")
