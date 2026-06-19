@@ -21,10 +21,7 @@ class HindsightOracle:
         if total_time <= 0:
             return 0.0
 
-        try:
-            return self._solve_milp(patients, total_time)
-        except Exception:
-            return self._greedy_heuristic(patients, total_time)
+        return self._greedy_heuristic(patients, total_time)
 
     def _greedy_heuristic(
         self,
@@ -69,9 +66,8 @@ class HindsightOracle:
 
         earliest_slot = np.ceil(arrivals / R).astype(int)
         service_slots = np.maximum(1, np.ceil(services / R).astype(int))
-        max_service = float(np.max(services))
 
-        T = int(np.ceil((total_time + max_service) / R)) + 1
+        T = int(np.ceil(total_time / R))
 
         estimated_vars = sum(max(0, T - earliest_slot[i]) for i in range(n))
         if estimated_vars > _MAX_MILP_VARS:
@@ -99,10 +95,17 @@ class HindsightOracle:
         for (i, t), var in var_map.items():
             patient_vars[i].append(var)
         for i, vars_i in enumerate(patient_vars):
+            not_served = h.addVariable(
+                lb=0, ub=1,
+                obj=weights[i] * total_time,
+                type=highspy.HighsVarType.kInteger,
+            )
             if vars_i:
-                h.addConstr(sum(vars_i) == 1)
+                h.addConstr(sum(vars_i) + not_served == 1)
+            else:
+                h.addConstr(not_served == 1)
 
-        T_checks = T + int(np.ceil(max_service / R))
+        T_checks = T + int(np.max(service_slots))
         for k in range(T_checks):
             active: list[highspy.highs_var] = []
             for i in range(n):
