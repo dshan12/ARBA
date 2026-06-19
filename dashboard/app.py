@@ -23,7 +23,6 @@ def load_results_csv(name: str):
     return None
 
 
-@st.cache_data
 def run_simulation(lambda_base, surge_mult, H, B_max, duration, seed):
     env_rob = EDEnvironment(
         B_max=B_max,
