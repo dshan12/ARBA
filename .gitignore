@@ -37,3 +37,7 @@ Thumbs.db
 .mypy_cache/
 .pytest_cache/
 __pycache__/
+
+# Docs (tracked separately / local copies)
+docs/reference.md
+docs/specification.txt
