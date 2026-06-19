@@ -2,7 +2,7 @@
 
 **A CUSUM-triggered robust optimization framework for non-stationary healthcare resource allocation**
 
-[![CI](https://github.com/dshan12/arba/actions/workflows/ci.yml/badge.svg)](https://github.com/dshan12/arba/actions/workflows/ci.yml)
+[![CI](https://github.com/dshan12/arba/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dshan12/arba/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![arXiv](https://img.shields.io/badge/arXiv-coming_soon-b31b1b.svg)](https://github.com/dshan12/arba)
