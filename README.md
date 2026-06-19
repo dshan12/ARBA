@@ -17,19 +17,19 @@ Robust optimization is a leading framework for decision-making under uncertainty
 
 ## Problem Statement
 
-Emergency department (ED) crowding is a well-documented public health crisis with measurable consequences for patient outcomes: higher mortality, prolonged inpatient stays, increased ambulance diversion, and higher rates of patients leaving without being seen [1, 2]. At its operational core, ED crowding reflects a resource allocation problem with non-stationary demand — arrivals follow diurnal patterns, weekly seasonality, and are punctuated by shock events such as mass casualty incidents, seasonal outbreaks, or severe weather.
+Emergency department (ED) crowding is a well-documented public health crisis with measurable consequences for patient outcomes: higher mortality, prolonged inpatient stays, increased ambulance diversion, and higher rates of patients leaving without being seen [1, 2]. At its operational core, ED crowding reflects a resource allocation problem with non-stationary demand - arrivals follow diurnal patterns, weekly seasonality, and are punctuated by shock events such as mass casualty incidents, seasonal outbreaks, or severe weather.
 
-Standard robust optimization [3] hedges against uncertainty by optimizing for worst-case realizations within a prescribed set. The limitation is fundamental: a static uncertainty set tuned for normal conditions is dangerously under-protective during surges, while one tuned for surges is wastefully conservative during normal operation. The resulting excess cost — regret — grows linearly with the post-shift horizon.
+Standard robust optimization [3] hedges against uncertainty by optimizing for worst-case realizations within a prescribed set. The limitation is fundamental: a static uncertainty set tuned for normal conditions is dangerously under-protective during surges, while one tuned for surges is wastefully conservative during normal operation. The resulting excess cost - regret - grows linearly with the post-shift horizon.
 
 ## Approach
 
 The framework consists of three components:
 
-**1. Sequential Change Detection (CUSUM)** — A Poisson log-likelihood ratio CUSUM [4, 5] monitors the arrival stream. The statistic accumulates positive evidence for a rate increase and triggers when it crosses threshold *h*. Lorden's inequality guarantees that the expected detection delay is bounded by *O(h / D_KL)*, where *D_KL* is the Kullback–Leibler divergence between pre- and post-shift distributions.
+**1. Sequential Change Detection (CUSUM)** - A Poisson log-likelihood ratio CUSUM [4, 5] monitors the arrival stream. The statistic accumulates positive evidence for a rate increase and triggers when it crosses threshold *h*. Lorden's inequality guarantees that the expected detection delay is bounded by *O(h / D_KL)*, where *D_KL* is the Kullback–Leibler divergence between pre- and post-shift distributions.
 
-**2. Robust Allocation Policy** — A gamma-robust [3] bed reservation heuristic: a fraction *Gamma* of available beds is reserved for critical patients. The reservation fraction scales with the estimated arrival rate, interpolating between nominal and worst-case operation.
+**2. Robust Allocation Policy** - A gamma-robust [3] bed reservation heuristic: a fraction *Gamma* of available beds is reserved for critical patients. The reservation fraction scales with the estimated arrival rate, interpolating between nominal and worst-case operation.
 
-**3. Adaptive Switching** — Upon CUSUM detection, the policy re-estimates the arrival rate via sliding-window maximum likelihood, re-centers its box uncertainty set around the new estimate, and expands the robustness budget. When the rate returns to baseline, the policy reverts to standard robust mode.
+**3. Adaptive Switching** - Upon CUSUM detection, the policy re-estimates the arrival rate via sliding-window maximum likelihood, re-centers its box uncertainty set around the new estimate, and expands the robustness budget. When the rate returns to baseline, the policy reverts to standard robust mode.
 
 The total expected regret is bounded by:
 
@@ -155,9 +155,9 @@ Opens an interactive visualization with live policy comparison, regret analysis,
 
 ## Documentation
 
-- **[Paper](paper/paper.tex)** — Full manuscript with theoretical analysis and empirical results
-- **[Technical Reference](docs/reference.md)** — Complete mathematical exposition and implementation details
-- **[Specification](docs/specification.txt)** — Original technical specification and design rationale
+- **[Paper](paper/paper.tex)** - Full manuscript with theoretical analysis and empirical results
+- **[Technical Reference](docs/reference.md)** - Complete mathematical exposition and implementation details
+- **[Specification](docs/specification.txt)** - Original technical specification and design rationale
 
 ---
 
@@ -195,7 +195,7 @@ This project is distributed under the MIT License. See [`LICENSE`](LICENSE) for 
 
 ## Contact
 
-Darshan Sathish Kumar — darshan.sathishkumar@my.utsa.edu  
+Darshan Sathish Kumar - darshan.sathishkumar@my.utsa.edu  
 UTSA Honors College, Department of Mathematics and Computer Science
 
 ---
