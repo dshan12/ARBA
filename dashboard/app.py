@@ -72,6 +72,10 @@ def compute_cumulative_regret(patients, oracle_cost):
     return running - oracle_cost, cumulative
 
 
+def safe_cost(p):
+    return ACUITY_WEIGHTS[p.acuity] * (p.wait_time if p.service_start is not None else 0.0)
+
+
 tab1, tab2 = st.tabs(["Live Battle", "Regret Analysis"])
 
 with tab1:
@@ -92,8 +96,8 @@ with tab1:
                 lambda_base, surge_mult, h_threshold, B_max, duration, 42
             )
 
-        costs_r = [ACUITY_WEIGHTS[p.acuity] * p.wait_time for p in pat_r]
-        costs_a = [ACUITY_WEIGHTS[p.acuity] * p.wait_time for p in pat_a]
+        costs_r = [safe_cost(p) for p in pat_r]
+        costs_a = [safe_cost(p) for p in pat_a]
         total_r = sum(costs_r)
         total_a = sum(costs_a)
 
