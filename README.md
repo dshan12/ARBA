@@ -78,7 +78,6 @@ in contrast to the linear regret *O(T)* incurred by a static robust policy.
 │   ├── run_factorial.py        3^5 factorial design
 │   └── run_mimic_validation.py MIMIC-IV validation pipeline
 ├── dashboard/            Streamlit interactive visualization
-├── docs/                 Technical reference and specification
 ├── paper/                Manuscript and bibliography
 ├── data/                 Calibrated parameters and MIMIC-IV demo
 └── results/              Generated experimental output
@@ -156,8 +155,6 @@ Opens an interactive visualization with live policy comparison, regret analysis,
 ## Documentation
 
 - **[Paper](paper/paper.tex)** - Full manuscript with theoretical analysis and empirical results
-- **[Technical Reference](docs/reference.md)** - Complete mathematical exposition and implementation details
-- **[Specification](docs/specification.txt)** - Original technical specification and design rationale
 
 ---
 
